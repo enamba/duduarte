@@ -1,7 +1,9 @@
 import os
-
 import boto3
+import logging
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 from flask import Flask, jsonify, request
 app = Flask(__name__)
 
@@ -16,6 +18,7 @@ def hello():
 
 @app.route("/users/<string:user_id>")
 def get_user(user_id):
+    logger.info('## ENAMBA-2')
     resp = client.get_item(
         TableName=USERS_TABLE,
         Key={
@@ -34,6 +37,8 @@ def get_user(user_id):
 
 @app.route("/users", methods=["POST"])
 def create_user():
+    logger.info('## ENAMBA-2')
+
     user_id = request.json.get('userId')
     name = request.json.get('name')
     if not user_id or not name:
